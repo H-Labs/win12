@@ -63,16 +63,17 @@ let langcode,lang=(txt,id)=>{
     return $.i18n.prop(id);
 };
 
-if(localStorage.getItem('lang')!=null){
-    if(localStorage.getItem('lang')=='hans' || localStorage.getItem('lang')=='zh_cn' || localStorage.getItem('lang')=='zh-cn'){
-        localStorage.setItem('lang','zh-CN');
-    }
-}else{
-    if(navigator.language in langc)
-        localStorage.setItem('lang',langc[navigator.language]);
-    else
-        localStorage.setItem('lang','en-US');
-}
+// if(localStorage.getItem('lang')!=null){
+//     if(localStorage.getItem('lang')=='hans' || localStorage.getItem('lang')=='zh_cn' || localStorage.getItem('lang')=='zh-cn'){
+//         localStorage.setItem('lang','zh-CN');
+//     }
+// }else{
+//     if(navigator.language in langc)
+//         localStorage.setItem('lang',langc[navigator.language]);
+//     else
+//         localStorage.setItem('lang','en-US');
+// }
+localStorage.setItem('lang','en-US');
 langcode=localStorage.getItem('lang');
 
 
@@ -99,7 +100,7 @@ console.log('?')
 /// langcode==zh_cn 下返回 txt,
 /// 否则返回语言 properties 文件中键 id 对应的值。
 /// 用例： lang('设置','setting.name')
-// 
+//
 // 为开发方便，故不将简体中文纳入语言考虑
 
 
@@ -147,7 +148,7 @@ page.addEventListener('click',(event)=>{
     }
 });
 //开始菜单收回
-	
+
 
 // 上古代码，列表前的小竖线
 document.querySelectorAll('list.focs').forEach(li => {
@@ -907,11 +908,11 @@ STARWARS        原力觉醒
         if (inTerminal) {
             const chars = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890'; // 哈？(from stsc)
             let matrix = '';
-            
+
             // 创建一个专门的容器来放置 matrix 效果
             const matrixContainer = $('<div class="matrix-container" style="font-family: monospace; line-height: 1.2;"></div>');
             $('#win-terminal>.text-cmd').append(matrixContainer);
-            
+
             for (let i = 0; i < 15; i++) {
                 let line = '';
                 for (let j = 0; j < 50; j++) {
@@ -927,7 +928,7 @@ STARWARS        原力觉醒
                 matrix += line + '\n';
             }
             matrixContainer.html(matrix);
-            
+
             // 添加动画效果
             const interval = setInterval(() => {
                 const newLine = Array.from({length: 50}, () => {
@@ -940,7 +941,7 @@ STARWARS        原力觉醒
                         return `<span style="color: #050;">${chars[Math.floor(Math.random() * chars.length)]}</span>`;
                     }
                 }).join('');
-                
+
                 const matrixContent = matrixContainer.html().split('\n');
                 matrixContent.shift();
                 matrixContent.push(newLine);
@@ -969,13 +970,13 @@ STARWARS        原力觉醒
                     </div>
                 `);
             }
-            
+
             const snowflakes = ['❄', '❅', '❆', '✻', '✼', '❉'];
             const pileFlakes = ['❄', '❅', '❆'];
             const colors = ['#fff', '#eef', '#ddf'];
             let pileCount = 0;
             let lastPilePosition = 50; // 用于记录上一个堆积位置
-            
+
             function createSnowflake() {
                 const flake = snowflakes[Math.floor(Math.random() * snowflakes.length)];
                 const color = colors[Math.floor(Math.random() * colors.length)];
@@ -983,9 +984,9 @@ STARWARS        原力觉醒
                 const left = Math.random() * 100;
                 const fallDuration = 3 + Math.random() * 2;
                 const $snowflake = $(`<span class="snowflake" style="position: absolute; left: ${left}%; top: -10%; font-size: ${size}em; color: ${color}; text-shadow: 0 0 5px ${color}; transition: all ${fallDuration}s linear; opacity: 0.8; transform: rotate(0deg) translateZ(0);">${flake}</span>`);
-                
+
                 $('#snow-container').append($snowflake);
-                
+
                 setTimeout(() => {
                     const rotation = Math.random() * 360;
                     const finalLeft = left + (Math.random() - 0.5) * 20;
@@ -1001,33 +1002,33 @@ STARWARS        原力觉醒
                         transition: 'all 0.5s ease-out',
                         opacity: 0
                     });
-                    
+
                     if (pileCount < 200) {
                         const pileFlake = pileFlakes[Math.floor(Math.random() * pileFlakes.length)];
                         const pileSize = Math.random() * 0.4 + 0.3; // 减小堆积雪花的大小
-                        
+
                         // 计算新的堆积位置，使其更自然
                         const deviation = (Math.random() - 0.5) * 30;
                         lastPilePosition = Math.max(10, Math.min(90, lastPilePosition + deviation));
                         const pileLeft = lastPilePosition;
-                        
+
                         // 计算堆积高度，使其形成自然的山形
                         const baseHeight = Math.sin((pileLeft - 50) * Math.PI / 180) * 20;
                         const pileHeight = Math.max(0, 20 - Math.abs(pileLeft - 50) / 2.5 + baseHeight);
-                        
+
                         const $pile = $(`<span style="position: absolute; left: ${pileLeft}%; bottom: ${pileHeight}px; font-size: ${pileSize}em; opacity: 0; transform: scale(0) translateZ(${Math.random() * 50}px); transition: all 0.3s ease-out;">${pileFlake}</span>`);
                         $('#snow-pile').append($pile);
-                        
+
                         setTimeout(() => {
                             $pile.css({
                                 transform: `scale(1) translateZ(${Math.random() * 50}px) rotate(${Math.random() * 30 - 15}deg)`,
                                 opacity: 0.85
                             });
                         }, 50);
-                        
+
                         pileCount++;
                     }
-                    
+
                     setTimeout(() => $snowflake.remove(), 500);
                 }, fallDuration * 1000);
             }
@@ -1083,7 +1084,7 @@ STARWARS        原力觉醒
                 { transform: 'rotate(-5deg) translateX(-10px)' },
                 { transform: 'rotate(0deg) translate(0, 0)' }
             ];
-            
+
             windows.each(function() {
                 const win = $(this);
                 let danceCount = 0;
@@ -1093,7 +1094,7 @@ STARWARS        原力觉醒
                         transition: 'transform 0.3s ease-in-out',
                         transform: danceSteps[danceCount % danceSteps.length].transform
                     });
-                    
+
                     // 跳舞15次后停止
                     if (danceCount >= 15) {
                         clearInterval(danceInterval);
@@ -1186,7 +1187,7 @@ shutdown [-s] [-r] [-f] [-a] [-t time]
                 }
                 return true;
             }
-            
+
             // 初始化参数变量
             let hasTime = false;      // 是否指定了时间
             let timeValue = 0;        // 延迟时间值（秒）
@@ -1262,7 +1263,7 @@ shutdown [-s] [-r] [-f] [-a] [-t time]
             // 计算延迟时间和显示文本
             const delay = hasTime ? timeValue * 1000 : 0;  // 将秒转换为毫秒
             const timeString = hasTime ? calcTimeString(timeValue) : '立即';
-            
+
             // 准备通知内容
             nts['shutdown'] = {
                 cnt: `
@@ -1287,7 +1288,7 @@ shutdown [-s] [-r] [-f] [-a] [-t time]
 
             // 将任务添加到任务列表
             shutdown_task.push(task);
-            
+
             // 如果不是强制模式，显示通知
             if (!forceMode) {
                 shownotice('shutdown');
@@ -1298,11 +1299,11 @@ shutdown [-s] [-r] [-f] [-a] [-t time]
     else if (cmd.toLowerCase() === 'starwars') {
         if (inTerminal) {
             $('#win-terminal>.text-cmd').append('原力与你同在... ⚔️\n');
-            
+
             // 创建星球大战容器
             const starWarsContainer = $('<div class="starwars-container" style="font-family: monospace; perspective: 400px; color: #ffd700; position: relative; height: 400px; overflow: hidden; background: #000;"></div>');
             $('#win-terminal>.text-cmd').append(starWarsContainer);
-            
+
             // 添加星球大战文本
             const text = `
             Episode XII
@@ -1327,11 +1328,11 @@ shutdown [-s] [-r] [-f] [-a] [-t time]
 
             愿原力与你同在！
             `;
-            
+
             const crawl = $(`<div class="crawl" style="position: relative; top: 400px; transform-origin: 50% 100%; transform: rotateX(60deg); text-align: center; font-size: 24px; line-height: 1.5; white-space: pre-line; text-shadow: 0 0 10px #ffd700;"></div>`);
             crawl.html(text);
             starWarsContainer.append(crawl);
-            
+
             // 添加动态背景星星
             for (let i = 0; i < 200; i++) {
                 const size = Math.random() * 2 + 1;
@@ -1360,7 +1361,7 @@ shutdown [-s] [-r] [-f] [-a] [-t time]
                 }
             </style>`);
             starWarsContainer.append(style);
-            
+
             // 30秒后清理
             setTimeout(() => {
                 starWarsContainer.fadeOut(2000, function() {
@@ -1412,18 +1413,18 @@ function stopDrag() {
 
 function insertTextAtCursor(text) {
     var range, selection;
-    
+
     if (window.getSelection) {
         selection = window.getSelection();
-        
+
         if (selection.rangeCount) {
         range = selection.getRangeAt(0);
-        
+
             if (range.commonAncestorContainer.parentNode.isContentEditable) {
                 range.collapse(false);
                 var textNode = document.createTextNode(text);
                 range.insertNode(textNode);
-                
+
                 range.setEndAfter(textNode);
                 range.setStartAfter(textNode);
                 selection.removeAllRanges();
@@ -1530,7 +1531,7 @@ let copilot = {
         4.切换颜色主题<br>
         <strong>请勿滥用本ai助手！每日对话限 7 条。</strong></p></div>`);
         setTimeout(() => {
-            if(localStorage.getItem('ailimit')==null || 
+            if(localStorage.getItem('ailimit')==null ||
                 (localStorage.getItem('ailimitday')!=(new Date()).toDateString())){
                 localStorage.setItem('ailimitday',(new Date()).toDateString());
                 localStorage.setItem('ailimit','0');
@@ -1557,7 +1558,7 @@ let copilot = {
         }
 
         if(role=='user'){
-            // if(localStorage.getItem('ailimit')==null || 
+            // if(localStorage.getItem('ailimit')==null ||
             //     (localStorage.getItem('ailimitday')!=(new Date()).toDateString())){
             //     localStorage.setItem('ailimitday',(new Date()).toDateString());
             //     localStorage.setItem('ailimit','0');
@@ -1566,7 +1567,7 @@ let copilot = {
         }
 
         $('#copilot>.inputbox').addClass('disable');
-        
+
 
         // 历史记录管理
         // if (copilot.history.length > 3){
@@ -1599,7 +1600,7 @@ let copilot = {
             }),
             success: function(response) {
                 msgDoneOperate();
-                
+
                 // 处理首次对话
                 // if (isFirstChat) {
                 //     $("#init-message").html(`初始化完成！`);
@@ -1612,7 +1613,7 @@ let copilot = {
                     // 解析代理服务器的响应
                     const proxyResponse = typeof response === 'string' ? JSON.parse(response) : response;
                     // 获取实际响应内容
-                    const actualResponse = typeof proxyResponse.body === 'string' ? 
+                    const actualResponse = typeof proxyResponse.body === 'string' ?
                         JSON.parse(proxyResponse.body) : proxyResponse.body;
                     responseText = actualResponse.response || actualResponse;
                 } catch (e) {
@@ -1666,7 +1667,7 @@ let copilot = {
                 }
 
                 copilot.history.push({ role: 'assistant', content: responseText });
-                
+
                 if(Number(localStorage.getItem('ailimit'))>=7){
                     $('#copilot>.inputbox').addClass('disable');
                     $('#copilot>.chat').append('<div class="line system"><p class="text">非常抱歉，但已达到本日对话限制 (7句)，请移步到其他 AI 网站 >u-)o</p></div>');
@@ -1689,7 +1690,7 @@ let copilot = {
         });
     },
     ana: (resp)=>{
-        
+
     }
 };
 // 日期、时间
@@ -1961,7 +1962,7 @@ function controlStatus(name) {
           localStorage.setItem(FLY_HIDDEN_LIST_KEY, JSON.stringify(hiddenDiffList))
         }
     }
-    if (name == 'dark') { 
+    if (name == 'dark') {
         $('html').toggleClass('night');
         setTimeout(() => {
             alert('别看电脑了，去休息眼睛吧~');
@@ -2117,7 +2118,7 @@ function saveDesktop() {
         sys_setting: JSON.stringify(sys_setting),
         root_class: $(':root').attr('class')
     };
-    
+
     Object.entries(data).forEach(([key, value]) => {
         localStorage.setItem(key, value);
     });
@@ -2394,13 +2395,13 @@ window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
 
 
-// 任务栏悬停预览窗口 by @fzlzjerry 
+// 任务栏悬停预览窗口 by @fzlzjerry
 
 let previewTimeout;
 
 function showTaskbarPreview(name, event) {
     clearTimeout(previewTimeout);
-    
+
     const preview = document.getElementById('taskbar-preview');
     if (!preview) {
         const previewEl = document.createElement('div');
@@ -2416,31 +2417,31 @@ function showTaskbarPreview(name, event) {
         `;
         document.body.appendChild(previewEl);
     }
-    
+
     const win = $(`.window.${name}`);
     if (win.length && !win.hasClass('min')) {
         const preview = $('#taskbar-preview');
         const taskbarItem = $(event.currentTarget);
         const itemRect = taskbarItem[0].getBoundingClientRect();
-        
 
-        
+
+
         // Set window title and icon
         const titleImg = win.find('.titbar img.icon').attr('src');
         const title = win.find('.titbar p').text() || win.find('.titbar span').text();
-        
+
         preview.find('.preview-title img').attr('src', titleImg);
         preview.find('.preview-title span').text(title);
-        
+
         // Create simplified window preview
         const previewWindow = preview.find('.preview-content .preview-window');
         previewWindow.empty();
-        
+
         // Clone important window elements for preview
         const content = win.find('.content').clone();
         content.find('script').remove(); // Remove any scripts
         content.find('iframe').remove(); // Remove iframes
-        
+
         // Scale down the content
         content.css({
             transform: 'scale(0.2)',
@@ -2448,7 +2449,7 @@ function showTaskbarPreview(name, event) {
             width: '500%', // 1/0.2 = 5
             height: '500%'
         });
-        
+
         previewWindow.append(content);
         preview.addClass('show');
 
